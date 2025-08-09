@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "file-manager",
+        "title": "mood-tracker",
         "width": 800,
         "height": 600
       }

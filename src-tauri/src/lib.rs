@@ -1,3 +1,5 @@
+use chrono::Utc;
+use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use tauri::AppHandle;
 use tauri_plugin_store::StoreExt;
@@ -16,7 +18,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             greet,
             invoke_mood,
-            get_possible_emoji
+            get_possible_emoji,
+            get_todays_moods
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -47,13 +50,13 @@ fn invoke_mood(mood: String, app: tauri::AppHandle) {
     // panic!("Fuck you");
 }
 
-#[derive(serde::Serialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 struct MoodEntry {
     mood: MoodType,
     timestamp: String,
 }
 
-#[derive(serde::Serialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 enum MoodType {
     Happy,
     Sad,
@@ -93,5 +96,37 @@ fn use_store(app: AppHandle, key: &str, value: Value) {
         Err(e) => {
             log::error!("Failed to get store: {}", e);
         }
+    }
+}
+
+#[tauri::command]
+fn get_todays_moods(app: AppHandle) -> Result<Vec<MoodEntry>, String> {
+    match app.store("store.json") {
+        Ok(store) => {
+            let entries = store.entries();
+            let today = chrono::Utc::now().date_naive();
+            let mut today_moods = Vec::new();
+
+            for (key, value) in entries {
+                if let Ok(entry) = serde_json::from_value::<MoodEntry>(value) {
+                    // Parse the timestamp and check if it's from today
+                    if let Ok(entry_time) = entry.timestamp.parse::<chrono::DateTime<Utc>>() {
+                        let entry_date = entry_time.date_naive();
+                        if entry_date == today {
+                            today_moods.push(entry);
+                        }
+                    } else {
+                        log::warn!("Failed to parse timestamp for key: {}", key);
+                    }
+                } else {
+                    log::warn!("Failed to deserialize mood entry for key: {}", key);
+                }
+            }
+
+            // Sort moods by timestamp
+            today_moods.sort_by(|a, b| a.timestamp.cmp(&b.timestamp));
+            Ok(today_moods)
+        }
+        Err(e) => Err(format!("Failed to get store: {}", e)),
     }
 }
