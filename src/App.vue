@@ -5,22 +5,34 @@ import EmojiSelect from "./components/EmojiSelect.vue";
 
 const greetMsg = ref("");
 const name = ref("Test User");
+<<<<<<< HEAD
+=======
+const emojis = ["😊", "😢", "😐", "😠", "😄"]
+>>>>>>> arjav
 
 
 async function greet() {
   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
   greetMsg.value = await invoke("greet", { name: name.value });
-  
+
 }
 
 </script>
 
 <template>
+<<<<<<< HEAD
       <main class="container">
         <h1>Welcome to your mood check <!-- (REMOVE IN PRODUCTION) --> </h1>
         <!--
           <div class="row">
             <a href="https://vite.dev" target="_blank">
+=======
+  <main class="container">
+     <h1>Welcome to your mood check <!-- (REMOVE IN PRODUCTION) --> </h1>
+<!--
+    <div class="row">
+      <a href="https://vite.dev" target="_blank">
+>>>>>>> arjav
         <img src="/vite.svg" class="logo vite" alt="Vite logo" />
       </a>
       <a href="https://tauri.app" target="_blank">
@@ -45,7 +57,7 @@ async function greet() {
       <input id="greet-input" v-model="name" placeholder="Enter a name..." />
       <button type="submit">Greet</button>
     </form>
-    <p>{{ greetMsg }}</p> 
+    <p>{{ greetMsg }}</p>
   </main>
 </template>
 
