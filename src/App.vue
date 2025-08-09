@@ -5,10 +5,7 @@ import EmojiSelect from "./components/EmojiSelect.vue";
 
 const greetMsg = ref("");
 const name = ref("Test User");
-<<<<<<< HEAD
-=======
 const emojis = ["😊", "😢", "😐", "😠", "😄"]
->>>>>>> arjav
 
 
 async function greet() {
@@ -20,19 +17,12 @@ async function greet() {
 </script>
 
 <template>
-<<<<<<< HEAD
-      <main class="container">
-        <h1>Welcome to your mood check <!-- (REMOVE IN PRODUCTION) --> </h1>
-        <!--
-          <div class="row">
-            <a href="https://vite.dev" target="_blank">
-=======
+
   <main class="container">
      <h1>Welcome to your mood check <!-- (REMOVE IN PRODUCTION) --> </h1>
 <!--
     <div class="row">
       <a href="https://vite.dev" target="_blank">
->>>>>>> arjav
         <img src="/vite.svg" class="logo vite" alt="Vite logo" />
       </a>
       <a href="https://tauri.app" target="_blank">
