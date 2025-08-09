@@ -1,21 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
+import EmojiSelect from "./components/EmojiSelect.vue";
 
 const greetMsg = ref("");
 const name = ref("Test User");
-const emojis = ["😂", "😀", "🙂", "😐", "&#x1F641"]
 
 
 async function greet() {
   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
   greetMsg.value = await invoke("greet", { name: name.value });
   
-}
-
-async function moodCheck(mood: string) {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  await invoke("invoke_mood", { mood });
 }
 
 </script>
@@ -25,9 +20,14 @@ async function moodCheck(mood: string) {
      <!-- <h1>Welcome to your mood check (REMOVE IN PRODUCTION) </h1> -->
 
 <div class="Buttons">
-    <button v-for="value in emojis" :key="value" @click="moodCheck(value)">
-      {{ value }}
-    </button>
+  <suspense>
+    <template #default>
+      <EmojiSelect />
+    </template>
+    <template #fallback>
+      ...
+    </template>
+  </suspense>
 </div>
     <form class="row" @submit.prevent="greet">
       <input id="greet-input" v-model="name" placeholder="Enter a name..." />
