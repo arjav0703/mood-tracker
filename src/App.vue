@@ -1,21 +1,40 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { invoke } from "@tauri-apps/api/core";
+// import { ref } from "vue";
+// import { invoke } from "@tauri-apps/api/core";
 import EmojiSelect from "./components/EmojiSelect.vue";
 
-const greetMsg = ref("");
-const name = ref("Test User");
+// const greetMsg = ref("");
+// const name = ref("Test User");
 
-
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsg.value = await invoke("greet", { name: name.value });
-  
-}
 
 </script>
+<script lang="ts">
+import NavBar from './components/NavBar.vue';
+export default {
+  components: {
+    NavBar,
+  },
+  data() {
+    return {
+      currentTab: 'home',
+    };
+  },
+  methods: {
+    handleTabSelection(tab: string) {
+      this.currentTab = tab;
+    },
+  },
+};
 
+</script>
 <template>
+  <div>
+    <NavBar @tab-selected="handleTabSelection" />
+    <div v-if="currentTab === 'home'">Home Content</div>
+    <div v-if="currentTab === 'Graphs'">Graphs Content</div>
+    <div v-if="currentTab === 'contact'">Contact Content</div>
+  </div>
+
   <main class="container">
      <!-- <h1>Welcome to your mood check (REMOVE IN PRODUCTION) </h1> -->
 
@@ -29,11 +48,6 @@ async function greet() {
     </template>
   </suspense>
 </div>
-    <form class="row" @submit.prevent="greet">
-      <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <button type="submit">Greet</button>
-    </form>
-    <p>{{ greetMsg }}</p> 
   </main>
 </template>
 

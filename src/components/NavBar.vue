@@ -1,7 +1,7 @@
 <template>  <div class="navbar">
-    <button @click="selectTab('Home')">Home</button>
-    <button @click="selectTab('Graphs')">About</button>
-    <button @click="selectTab('contact')">Contact</button>
+    <button @click="selectTab('Home')">🏠</button>
+    <button @click="selectTab('Graphs')">📊</button>
+    <button @click="selectTab('contact')"> 📞</button>
     </div>
 </template>
 <script>
@@ -22,11 +22,10 @@ export default {
 <style>
 .navbar {
   position: fixed;
-  bottom: 4.75%;
-  width: 150%;
+  bottom: 7.5%;
+  width: 96.5%;
   display: flex;
-  justify-content: space-around;
-  background-color: #fff;
-  border-top: 1px solid #ccc;
-}
+  justify-content: space-around; 
+  font-size: larger;
+  }
 </style>
