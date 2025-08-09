@@ -22,20 +22,8 @@ async function moodCheck(mood: string) {
 
 <template>
   <main class="container">
-     <h1>Welcome to your mood check <!-- (REMOVE IN PRODUCTION) --> </h1>
-<!-- 
-    <div class="row">
-      <a href="https://vite.dev" target="_blank">
-        <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-      </a>
-      <a href="https://tauri.app" target="_blank">
-        <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-      </a>
-      <a href="https://vuejs.org/" target="_blank">
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-      </a>
-    </div>
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p> -->
+     <!-- <h1>Welcome to your mood check (REMOVE IN PRODUCTION) </h1> -->
+
 <div class="Buttons">
     <button v-for="value in emojis" :key="value" @click="moodCheck(value)">
       {{ value }}
@@ -90,10 +78,7 @@ async function moodCheck(mood: string) {
   font-size: 3.10rem;
 }
 
-.row {
-  display: flex;
-  justify-content: center;
-}
+
 
 h1 {
   text-align: center;
