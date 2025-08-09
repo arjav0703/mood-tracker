@@ -12,33 +12,34 @@
             class="mood-graph"
             :viewBox="`0 0 ${svgWidth} ${svgHeight}`"
         >
-            <!-- Grid -->
+            <!-- Grid (now based on moodScale indices) -->
             <g class="grid-lines">
                 <line
-                    v-for="i in 5"
-                    :key="`grid-${i}`"
+                    v-for="(mood,i) in moodScale"
+                    :key="`grid-${mood}`"
                     :x1="padding"
-                    :y1="padding + (i - 1) * (graphHeight / 4)"
+                    :y1="getYForIndex(i)"
                     :x2="svgWidth - padding"
-                    :y2="padding + (i - 1) * (graphHeight / 4)"
+                    :y2="getYForIndex(i)"
                     stroke="#e0e0e0"
                     stroke-width="1"
                     opacity="0.5"
                 />
             </g>
 
-            <!-- labels -->
+            <!-- Axis labels -->
             <g class="mood-labels">
                 <text
-                    v-for="(label, index) in moodLabels"
-                    :key="`label-${index}`"
-                    :x="padding - 10"
-                    :y="padding + index * (graphHeight / 4) + 5"
+                    v-for="(mood,i) in moodScale"
+                    :key="`label-${mood}`"
+                    :x="padding - 14"
+                    :y="getYForIndex(i)"
                     text-anchor="end"
+                    dominant-baseline="middle"
                     font-size="24"
                     fill="#666"
                 >
-                    {{ label }}
+                    {{ getMoodEmoji(mood) }}
                 </text>
             </g>
 
@@ -97,15 +98,14 @@ const padding = 60;
 const graphWidth = svgWidth - 2 * padding;
 const graphHeight = svgHeight - 2 * padding;
 
-const moodLabels = ["😄", "😊", "😐", "😢", "😠"];
+const moodScale = ["Excited","Happy","Neutral","Sad","Angry"];
 
-const moodValues: { [key: string]: number } = {
-    Excited: 4,
-    Happy: 3,
-    Neutral: 2,
-    Sad: 1,
-    Angry: 0,
-};
+const moodIndexMap: Record<string, number> = moodScale
+  .reduce((acc, m, i) => (acc[m] = i, acc), {} as Record<string, number>);
+
+const steps = moodScale.length - 1;
+const getYForIndex = (i: number) => padding + (i / steps) * graphHeight;
+const getYForMood = (mood: string) => getYForIndex(moodIndexMap[mood] ?? moodIndexMap["Neutral"]);
 
 const dataPoints = computed(() => {
     if (moodEntries.value.length === 0) return [];
@@ -114,8 +114,7 @@ const dataPoints = computed(() => {
         const x =
             padding +
             (index * graphWidth) / Math.max(moodEntries.value.length - 1, 1);
-        const moodValue = moodValues[entry.mood] || 2;
-        const y = padding + (4 - moodValue) * (graphHeight / 4);
+        const y = getYForMood(entry.mood);
 
         return {
             x,
@@ -158,16 +157,10 @@ const getMoodColor = (mood: string): string => {
     return colors[mood] || "#45b7d1";
 };
 
-const getMoodEmoji = (mood: string): string => {
-    const emojis: { [key: string]: string } = {
-        Excited: "😄",
-        Happy: "😊",
-        Neutral: "😐",
-        Sad: "😢",
-        Angry: "😠",
-    };
-    return emojis[mood] || "😐";
+const emojiMap: Record<string,string> = {
+  Excited:"😄", Happy:"😊", Neutral:"😐", Sad:"😢", Angry:"😠"
 };
+const getMoodEmoji = (mood: string) => emojiMap[mood] || "😐";
 
 const loadTodaysMoods = async () => {
     try {
