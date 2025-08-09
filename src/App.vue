@@ -1,14 +1,8 @@
 <script setup lang="ts">
-// import { ref } from "vue";
-// import { invoke } from "@tauri-apps/api/core";
 import EmojiSelect from "./components/EmojiSelect.vue";
-
-// const greetMsg = ref("");
-// const name = ref("Test User");
-const emojis = ["😊", "😢", "😐", "😠", "😄"]
-
-
 </script>
+
+
 <script lang="ts">
 import NavBar from './components/NavBar.vue';
 export default {
@@ -26,24 +20,24 @@ export default {
     },
   },
 };
-
 </script>
+
+
 <template>
+
   <div>
     <NavBar @tab-selected="handleTabSelection" />
-    <div v-if="currentTab === 'home'">Home Content</div>
-    <div v-if="currentTab === 'Graphs'">Graphs Content</div>
-    <div v-if="currentTab === 'contact'">Contact Content</div>
+    <div v-if="currentTab === 'home'"></div>
+    <div v-if="currentTab === 'Graphs'"></div>
+    <div v-if="currentTab === 'contact'"></div>
   </div>
 
   <main class="container">
-     <!-- <h1>Welcome to your mood check (REMOVE IN PRODUCTION) </h1> -->
-
-<div class="Buttons">
-  <suspense>
-    <template #default>
-      <EmojiSelect />
-    </template>
+    <div class="Buttons">
+      <suspense>
+      <template #default>
+        <EmojiSelect />
+      </template>
     <template #fallback>
       ...
     </template>
