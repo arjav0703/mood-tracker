@@ -1,148 +1,142 @@
 <script setup lang="ts">
 import EmojiSelect from "./components/EmojiSelect.vue";
+import MoodGraph from "./components/MoodGraph.vue";
 </script>
 
-
 <script lang="ts">
-import NavBar from './components/NavBar.vue';
+import NavBar from "./components/NavBar.vue";
 export default {
-  components: {
-    NavBar,
-  },
-  data() {
-    return {
-      currentTab: 'home',
-    };
-  },
-  methods: {
-    handleTabSelection(tab: string) {
-      this.currentTab = tab;
+    components: {
+        NavBar,
+        MoodGraph,
     },
-  },
+    data() {
+        return {
+            currentTab: "home",
+        };
+    },
+    methods: {
+        handleTabSelection(tab: string) {
+            this.currentTab = tab;
+        },
+    },
 };
 </script>
 
-
 <template>
-
-  <div>
-    <NavBar @tab-selected="handleTabSelection" />
-    <div v-if="currentTab === 'home'"></div>
-    <div v-if="currentTab === 'Graphs'"></div>
-    <div v-if="currentTab === 'contact'"></div>
-  </div>
-
-  <main class="container">
-    <div class="Buttons">
-      <suspense>
-      <template #default>
-        <EmojiSelect />
-      </template>
-    <template #fallback>
-      ...
-    </template>
-  </suspense>
-</div>
-  </main>
+    <div>
+        <NavBar @tab-selected="handleTabSelection" />
+        <div v-if="currentTab === 'Home'">
+            <main class="container">
+                <div class="Buttons">
+                    <suspense>
+                        <template #default>
+                            <EmojiSelect />
+                        </template>
+                        <template #fallback> ... </template>
+                    </suspense>
+                </div>
+            </main>
+        </div>
+        <div v-if="currentTab === 'Graphs'">
+            <MoodGraph />
+        </div>
+        <div v-if="currentTab === 'contact'"></div>
+    </div>
 </template>
 
 <style scoped>
 .logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
+    filter: drop-shadow(0 0 2em #747bff);
 }
 
 .logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
+    filter: drop-shadow(0 0 2em #249b73);
 }
-
 </style>
 <style>
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
 
-  color: #0f0f0f;
-  background-color: #f6f6f6;
+    color: #0f0f0f;
+    background-color: #f6f6f6;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
 }
 
 .container {
-  margin: 0;
-  padding-top: 10vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
+    margin: 0;
+    padding-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
 }
 
 .Buttons * {
-  margin: 0.5rem;
-  font-size: 3.10rem;
+    margin: 0.5rem;
+    font-size: 3.1rem;
 }
 
-
-
 h1 {
-  text-align: center;
+    text-align: center;
 }
 
 input,
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  color: #0f0f0f;
-  background-color: #ffffff;
-  transition: border-color 0.25s;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    color: #0f0f0f;
+    background-color: #ffffff;
+    transition: border-color 0.25s;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 button {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 button:hover {
-  border-color: #396cd8;
+    border-color: #396cd8;
 }
 button:active {
-  border-color: #396cd8;
-  background-color: #e8e8e8;
+    border-color: #396cd8;
+    background-color: #e8e8e8;
 }
 
 input,
 button {
-  outline: none;
+    outline: none;
 }
 
 #greet-input {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
-  }
+    :root {
+        color: #f6f6f6;
+        background-color: #2f2f2f;
+    }
 
-
-  input,
-  button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
-  }
-  button:active {
-    background-color: #0f0f0f69;
-  }
+    input,
+    button {
+        color: #ffffff;
+        background-color: #0f0f0f98;
+    }
+    button:active {
+        background-color: #0f0f0f69;
+    }
 }
-
 </style>
