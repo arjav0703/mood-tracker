@@ -1,12 +1,13 @@
-// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
 fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+    format!("Hello, {name}! You've been greeted from Rust!")
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_log::Builder::new().build())
+        .plugin(tauri_plugin_log::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
             greet,
@@ -20,20 +21,22 @@ pub fn run() {
 #[tauri::command]
 fn invoke_mood(mood: String) {
     let timestamp = chrono::Utc::now();
-    println!("Mood received: {}", mood);
+    log::info!("Mood received: {mood}");
     if let Some(mood_type) = emoji_to_mood(&mood) {
         let entry = MoodEntry {
             mood: mood_type,
             timestamp,
         };
         // save to database or file (not implemented)
-        println!(
+        log::info!(
             "Mood entry created at {}: {:?}",
-            entry.timestamp, entry.mood
+            entry.timestamp,
+            entry.mood
         );
     } else {
-        println!("Unknown mood emoji: {}", mood);
+        println!("Unknown mood emoji: {mood}");
     }
+    // panic!("Fuck you");
 }
 
 struct MoodEntry {
