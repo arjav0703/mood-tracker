@@ -57,6 +57,9 @@ export default {
 
 </style>
 <style>
+
+
+
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -109,6 +112,13 @@ button {
 
 button {
   cursor: pointer;
+  transition:border-color 0.25s;
+
+}
+
+button::after{
+      content: "\A"; 
+    white-space: pre; 
 }
 
 button:hover {
