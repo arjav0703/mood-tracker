@@ -13,8 +13,8 @@ async function greet() {
 
 <template>
   <main class="container">
-    <h1>Welcome to Tauri + Vue</h1>
-
+     <h1>Welcome to your mood check</h1>
+<!-- 
     <div class="row">
       <a href="https://vite.dev" target="_blank">
         <img src="/vite.svg" class="logo vite" alt="Vite logo" />
@@ -26,13 +26,33 @@ async function greet() {
         <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
       </a>
     </div>
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
+    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p> -->
+<div class="Buttons">
+    <button>
+      😀
+    </button>
+    
+    <button>
+      😀
+    </button>
 
+    <button>
+      😀
+    </button>
+
+    <button>
+      😀
+    </button>
+
+    <button>
+      😀
+    </button>
+</div>
     <form class="row" @submit.prevent="greet">
       <input id="greet-input" v-model="name" placeholder="Enter a name..." />
       <button type="submit">Greet</button>
     </form>
-    <p>{{ greetMsg }}</p>
+    <p>{{ greetMsg }}</p> 
   </main>
 </template>
 
@@ -70,6 +90,10 @@ async function greet() {
   flex-direction: column;
   justify-content: center;
   text-align: center;
+}
+
+.Buttons * {
+  margin: 0.5rem;
 }
 
 .logo {
