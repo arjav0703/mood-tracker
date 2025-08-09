@@ -3,12 +3,21 @@ import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
 
 const greetMsg = ref("");
-const name = ref("");
+const name = ref("Test User");
+const emojis = ["😂", "😀", "🙂", "😐", "&#x1F641"]
+
 
 async function greet() {
   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
   greetMsg.value = await invoke("greet", { name: name.value });
+  
 }
+
+async function moodCheck(mood: string) {
+  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+  await invoke("invoke_mood", { mood });
+}
+
 </script>
 
 <template>
@@ -28,24 +37,8 @@ async function greet() {
     </div>
     <p>Click on the Tauri, Vite, and Vue logos to learn more.</p> -->
 <div class="Buttons">
-    <button>
-      😂
-    </button>
-    <br/>
-    <button>
-      😀
-    </button>
-    <br/>
-    <button>
-      🙂
-    </button>
-    <br/>
-    <button>
-      😐
-    </button>
-    <br/>
-    <button>
-      &#x1F641
+    <button v-for="value in emojis" :key="value" @click="moodCheck(value)">
+      {{ value }}
     </button>
 </div>
     <form class="row" @submit.prevent="greet">
