@@ -6,7 +6,7 @@ use tauri_plugin_store::StoreExt;
 
 #[tauri::command]
 fn greet(name: &str) -> String {
-    format!("Hello, {name}! You've been greeted from Rust!")
+    format!("👋 {name}!")
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -19,7 +19,8 @@ pub fn run() {
             greet,
             invoke_mood,
             get_possible_emoji,
-            get_todays_moods
+            get_todays_moods,
+            generate_sample_data
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -28,7 +29,6 @@ pub fn run() {
 #[tauri::command]
 fn invoke_mood(mood: String, app: tauri::AppHandle) {
     let timestamp = chrono::Utc::now();
-    log::info!("Mood received: {mood}");
     if let Some(mood_type) = emoji_to_mood(&mood) {
         let entry = MoodEntry {
             mood: mood_type,
@@ -36,18 +36,8 @@ fn invoke_mood(mood: String, app: tauri::AppHandle) {
         };
         let key = timestamp.to_string();
         let value = json!(entry);
-        log::info!("Key: {key}, Value: {value}");
         use_store(app, &key, value);
-        // save to database or file (not implemented)
-        log::info!(
-            "Mood entry created at {}: {:?}",
-            entry.timestamp,
-            entry.mood
-        );
-    } else {
-        println!("Unknown mood emoji: {mood}");
     }
-    // panic!("Fuck you");
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -88,14 +78,8 @@ fn get_possible_emoji() -> Vec<String> {
 }
 
 fn use_store(app: AppHandle, key: &str, value: Value) {
-    match app.store("store.json") {
-        Ok(store) => {
-            store.set(key.to_string(), value);
-            log::info!("Successfully stored mood entry with key: {}", key);
-        }
-        Err(e) => {
-            log::error!("Failed to get store: {}", e);
-        }
+    if let Ok(store) = app.store("store.json") {
+        store.set(key.to_string(), value);
     }
 }
 
@@ -107,19 +91,15 @@ fn get_todays_moods(app: AppHandle) -> Result<Vec<MoodEntry>, String> {
             let today = chrono::Utc::now().date_naive();
             let mut today_moods = Vec::new();
 
-            for (key, value) in entries {
+            for (_, value) in entries {
                 if let Ok(entry) = serde_json::from_value::<MoodEntry>(value) {
-                    // Parse the timestamp and check if it's from today
+                    // todays entry
                     if let Ok(entry_time) = entry.timestamp.parse::<chrono::DateTime<Utc>>() {
                         let entry_date = entry_time.date_naive();
                         if entry_date == today {
                             today_moods.push(entry);
                         }
-                    } else {
-                        log::warn!("Failed to parse timestamp for key: {}", key);
                     }
-                } else {
-                    log::warn!("Failed to deserialize mood entry for key: {}", key);
                 }
             }
 
@@ -127,6 +107,34 @@ fn get_todays_moods(app: AppHandle) -> Result<Vec<MoodEntry>, String> {
             today_moods.sort_by(|a, b| a.timestamp.cmp(&b.timestamp));
             Ok(today_moods)
         }
-        Err(e) => Err(format!("Failed to get store: {}", e)),
+        Err(_) => Err("❌".to_string()),
     }
+}
+
+#[tauri::command]
+fn generate_sample_data(app: AppHandle) -> Result<String, String> {
+    let sample_moods = vec![
+        (MoodType::Happy, "09:00:00"),
+        (MoodType::Excited, "12:30:00"),
+        (MoodType::Neutral, "15:15:00"),
+        (MoodType::Sad, "17:45:00"),
+        (MoodType::Happy, "20:00:00"),
+    ];
+
+    let today = chrono::Utc::now().date_naive();
+
+    for (mood, time_str) in sample_moods {
+        let timestamp_str = format!("{}T{}Z", today, time_str);
+        if let Ok(timestamp) = timestamp_str.parse::<chrono::DateTime<Utc>>() {
+            let entry = MoodEntry {
+                mood,
+                timestamp: timestamp.to_rfc3339(),
+            };
+            let key = timestamp.to_rfc3339();
+            let value = json!(entry);
+            use_store(app.clone(), &key, value);
+        }
+    }
+
+    Ok("✅".to_string())
 }
