@@ -1,53 +1,48 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { invoke } from "@tauri-apps/api/core";
 import EmojiSelect from "./components/EmojiSelect.vue";
-
-const greetMsg = ref("");
-const name = ref("Test User");
-const emojis = ["😊", "😢", "😐", "😠", "😄"]
-
-
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsg.value = await invoke("greet", { name: name.value });
-
-}
-
 </script>
+
+
+<script lang="ts">
+import NavBar from './components/NavBar.vue';
+export default {
+  components: {
+    NavBar,
+  },
+  data() {
+    return {
+      currentTab: 'home',
+    };
+  },
+  methods: {
+    handleTabSelection(tab: string) {
+      this.currentTab = tab;
+    },
+  },
+};
+</script>
+
 
 <template>
 
+  <div>
+    <NavBar @tab-selected="handleTabSelection" />
+    <div v-if="currentTab === 'home'"></div>
+    <div v-if="currentTab === 'Graphs'"></div>
+    <div v-if="currentTab === 'contact'"></div>
+  </div>
+
   <main class="container">
-     <h1>Welcome to your mood check <!-- (REMOVE IN PRODUCTION) --> </h1>
-<!--
-    <div class="row">
-      <a href="https://vite.dev" target="_blank">
-        <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-      </a>
-      <a href="https://tauri.app" target="_blank">
-        <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-      </a>
-      <a href="https://vuejs.org/" target="_blank">
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-      </a>
-    </div>
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p> -->
-<div class="Buttons">
-  <suspense>
-    <template #default>
-      <EmojiSelect />
-    </template>
+    <div class="Buttons">
+      <suspense>
+      <template #default>
+        <EmojiSelect />
+      </template>
     <template #fallback>
       ...
     </template>
   </suspense>
 </div>
-    <form class="row" @submit.prevent="greet">
-      <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <button type="submit">Greet</button>
-    </form>
-    <p>{{ greetMsg }}</p>
   </main>
 </template>
 
@@ -92,31 +87,7 @@ async function greet() {
   font-size: 3.10rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
-}
 
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
-}
-
-.row {
-  display: flex;
-  justify-content: center;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-}
 
 h1 {
   text-align: center;
@@ -163,9 +134,6 @@ button {
     background-color: #2f2f2f;
   }
 
-  a:hover {
-    color: #24c8db;
-  }
 
   input,
   button {
