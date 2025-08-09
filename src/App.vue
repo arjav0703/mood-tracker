@@ -13,7 +13,7 @@ async function greet() {
 
 <template>
   <main class="container">
-     <h1>Welcome to your mood check</h1>
+     <h1>Welcome to your mood check <!-- (REMOVE IN PRODUCTION) --> </h1>
 <!-- 
     <div class="row">
       <a href="https://vite.dev" target="_blank">
@@ -29,23 +29,23 @@ async function greet() {
     <p>Click on the Tauri, Vite, and Vue logos to learn more.</p> -->
 <div class="Buttons">
     <button>
-      😀
+      😂
     </button>
-    
+    <br/>
     <button>
       😀
     </button>
-
+    <br/>
     <button>
-      😀
+      🙂
     </button>
-
+    <br/>
     <button>
-      😀
+      😐
     </button>
-
+    <br/>
     <button>
-      😀
+      &#x1F641
     </button>
 </div>
     <form class="row" @submit.prevent="greet">
@@ -94,6 +94,7 @@ async function greet() {
 
 .Buttons * {
   margin: 0.5rem;
+  font-size: 3.10rem;
 }
 
 .logo {
