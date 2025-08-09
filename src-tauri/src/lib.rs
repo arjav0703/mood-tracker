@@ -12,7 +12,6 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_log::Builder::new().build())
-        .plugin(tauri_plugin_log::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
             greet,
@@ -65,11 +64,11 @@ enum MoodType {
 
 fn emoji_to_mood(emoji: &str) -> Option<MoodType> {
     match emoji {
-        "😊" => Some(MoodType::Happy),
-        "😢" => Some(MoodType::Sad),
-        "😐" => Some(MoodType::Neutral),
-        "😠" => Some(MoodType::Angry),
-        "😄" => Some(MoodType::Excited),
+        "😊" | "😀" | "🙂" | "😃" => Some(MoodType::Happy),
+        "😢" | "😭" | "☹️" | "🙁" | "&#x1F641" => Some(MoodType::Sad),
+        "😐" | "😑" => Some(MoodType::Neutral),
+        "😠" | "😡" | "🤬" => Some(MoodType::Angry),
+        "😄" | "😆" | "🤩" | "😂" => Some(MoodType::Excited),
         _ => None,
     }
 }

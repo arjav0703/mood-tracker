@@ -4,13 +4,13 @@ import { invoke } from "@tauri-apps/api/core";
 
 const greetMsg = ref("");
 const name = ref("Test User");
-const emojis = ["😂", "😀", "🙂", "😐", "&#x1F641"]
+const emojis = ["😊", "😢", "😐", "😠", "😄"]
 
 
 async function greet() {
   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
   greetMsg.value = await invoke("greet", { name: name.value });
-  
+
 }
 
 async function moodCheck(mood: string) {
@@ -23,7 +23,7 @@ async function moodCheck(mood: string) {
 <template>
   <main class="container">
      <h1>Welcome to your mood check <!-- (REMOVE IN PRODUCTION) --> </h1>
-<!-- 
+<!--
     <div class="row">
       <a href="https://vite.dev" target="_blank">
         <img src="/vite.svg" class="logo vite" alt="Vite logo" />
@@ -45,7 +45,7 @@ async function moodCheck(mood: string) {
       <input id="greet-input" v-model="name" placeholder="Enter a name..." />
       <button type="submit">Greet</button>
     </form>
-    <p>{{ greetMsg }}</p> 
+    <p>{{ greetMsg }}</p>
   </main>
 </template>
 
