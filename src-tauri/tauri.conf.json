@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "file-manager",
+  "productName": "mood-tracker",
   "version": "0.1.0",
   "identifier": "cooper.adrian.arjav",
   "build": {
