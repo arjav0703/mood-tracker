@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
+import EmojiSelect from "./components/EmojiSelect.vue";
 
 const greetMsg = ref("");
 const name = ref("Test User");
-const emojis = ["😂", "😀", "🙂", "😐", "&#x1F641"]
 
 
 async function greet() {
@@ -13,19 +13,14 @@ async function greet() {
   
 }
 
-async function moodCheck(mood: string) {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  await invoke("invoke_mood", { mood });
-}
-
 </script>
 
 <template>
-  <main class="container">
-     <h1>Welcome to your mood check <!-- (REMOVE IN PRODUCTION) --> </h1>
-<!-- 
-    <div class="row">
-      <a href="https://vite.dev" target="_blank">
+      <main class="container">
+        <h1>Welcome to your mood check <!-- (REMOVE IN PRODUCTION) --> </h1>
+        <!--
+          <div class="row">
+            <a href="https://vite.dev" target="_blank">
         <img src="/vite.svg" class="logo vite" alt="Vite logo" />
       </a>
       <a href="https://tauri.app" target="_blank">
@@ -37,9 +32,14 @@ async function moodCheck(mood: string) {
     </div>
     <p>Click on the Tauri, Vite, and Vue logos to learn more.</p> -->
 <div class="Buttons">
-    <button v-for="value in emojis" :key="value" @click="moodCheck(value)">
-      {{ value }}
-    </button>
+  <suspense>
+    <template #default>
+      <EmojiSelect />
+    </template>
+    <template #fallback>
+      ...
+    </template>
+  </suspense>
 </div>
     <form class="row" @submit.prevent="greet">
       <input id="greet-input" v-model="name" placeholder="Enter a name..." />
