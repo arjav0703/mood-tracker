@@ -5,6 +5,7 @@ import EmojiSelect from "./components/EmojiSelect.vue";
 
 // const greetMsg = ref("");
 // const name = ref("Test User");
+const emojis = ["😊", "😢", "😐", "😠", "😄"]
 
 
 </script>
