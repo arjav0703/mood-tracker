@@ -12,3 +12,8 @@ pub fn run() {
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
+
+#[tauri::command]
+fn invoke_mood(mood: String) -> String {
+    format!("Mood received: {}", mood)
+}
