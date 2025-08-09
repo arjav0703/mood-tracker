@@ -8,12 +8,51 @@ fn greet(name: &str) -> String {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![greet, invoke_mood])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
 
 #[tauri::command]
-fn invoke_mood(mood: String) -> String {
-    format!("Mood received: {}", mood)
+fn invoke_mood(mood: String) {
+    let timestamp = chrono::Utc::now();
+    println!("Mood received: {}", mood);
+    if let Some(mood_type) = emoji_to_mood(&mood) {
+        let entry = MoodEntry {
+            mood: mood_type,
+            timestamp,
+        };
+        // save to database or file (not implemented)
+        println!(
+            "Mood entry created at {}: {:?}",
+            entry.timestamp, entry.mood
+        );
+    } else {
+        println!("Unknown mood emoji: {}", mood);
+    }
+}
+
+struct MoodEntry {
+    mood: MoodType,
+    timestamp: chrono::DateTime<chrono::Utc>,
+}
+
+#[derive(Debug)]
+enum MoodType {
+    Happy,
+    Sad,
+    Neutral,
+    Angry,
+    Excited,
+}
+
+fn emoji_to_mood(emoji: &str) -> Option<MoodType> {
+    match emoji {
+        "😊" => Some(MoodType::Happy),
+        "😢" => Some(MoodType::Sad),
+        "😐" => Some(MoodType::Neutral),
+        "😠" => Some(MoodType::Angry),
+        "😄" => Some(MoodType::Excited),
+        _ => None,
+    }
 }
