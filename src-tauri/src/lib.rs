@@ -8,7 +8,11 @@ fn greet(name: &str) -> String {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet, invoke_mood])
+        .invoke_handler(tauri::generate_handler![
+            greet,
+            invoke_mood,
+            get_possible_emoji
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
@@ -55,4 +59,15 @@ fn emoji_to_mood(emoji: &str) -> Option<MoodType> {
         "😄" => Some(MoodType::Excited),
         _ => None,
     }
+}
+
+#[tauri::command]
+fn get_possible_emoji() -> Vec<String> {
+    vec![
+        "😊".to_string(),
+        "😢".to_string(),
+        "😐".to_string(),
+        "😠".to_string(),
+        "😄".to_string(),
+    ]
 }
