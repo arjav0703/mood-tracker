@@ -1,4 +1,4 @@
-name: Build & Release Tauri Android App
+name: Build Tauri Android App
 
 on:
   push:
@@ -22,25 +22,28 @@ jobs:
         with:
           targets: aarch64-linux-android
 
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev wget unzip
-
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
 
       - name: Install Tauri CLI
         run: cargo install tauri-cli
 
-      - name: Build Android App
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install project dependencies
+        run: npm install
+
+      - name: Build Android APK
         run: |
           rustup target add aarch64-linux-android
-          npm install
           npm run tauri android build
 
-      - name: Upload APK to GitHub Release
-        uses: softprops/action-gh-release@v2
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v4
         with:
-          files: |
-            src-tauri/gen/android/app/build/outputs/apk/release/app-release.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: tauri-android-apk
+          path: src-tauri/gen/android/app/build/outputs/apk/release/app-release.apk
+
