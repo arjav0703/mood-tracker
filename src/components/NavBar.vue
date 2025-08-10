@@ -14,13 +14,6 @@
         >
             <span class="nav-icon">📊</span>
         </button>
-        <button
-            @click="selectTab('contact')"
-            :class="{ active: currentTab === 'contact' }"
-            class="nav-button"
-        >
-            <span class="nav-icon">📞</span>
-        </button>
     </div>
 </template>
 

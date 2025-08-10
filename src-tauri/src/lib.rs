@@ -20,7 +20,8 @@ pub fn run() {
             invoke_mood,
             get_possible_emoji,
             get_todays_moods,
-            generate_sample_data
+            generate_sample_data,
+            reset_store
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -137,4 +138,15 @@ fn generate_sample_data(app: AppHandle) -> Result<String, String> {
     }
 
     Ok("✅".to_string())
+}
+
+#[tauri::command]
+fn reset_store(app: AppHandle) -> Result<String, String> {
+    match app.store("store.json") {
+        Ok(store) => {
+            store.clear();
+            Ok("✅".to_string())
+        }
+        Err(e) => Err(format!("Failed to access store: {}", e)),
+    }
 }

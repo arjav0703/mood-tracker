@@ -1,6 +1,10 @@
 <template>
     <div class="mood-graph-container">
-        <div class="graph-header"></div>
+        <div class="graph-header">
+            <button @click="resetData" class="reset-btn" title="Reset all data">
+                🗑️
+            </button>
+        </div>
         <div v-if="moodEntries.length === 0" class="no-data">
             <div class="no-data-icon">📊</div>
             <button @click="generateSampleData" class="sample-data-btn">
@@ -15,7 +19,7 @@
             <!-- Grid (now based on moodScale indices) -->
             <g class="grid-lines">
                 <line
-                    v-for="(mood,i) in moodScale"
+                    v-for="(mood, i) in moodScale"
                     :key="`grid-${mood}`"
                     :x1="padding"
                     :y1="getYForIndex(i)"
@@ -30,7 +34,7 @@
             <!-- Axis labels -->
             <g class="mood-labels">
                 <text
-                    v-for="(mood,i) in moodScale"
+                    v-for="(mood, i) in moodScale"
                     :key="`label-${mood}`"
                     :x="padding - 14"
                     :y="getYForIndex(i)"
@@ -98,14 +102,17 @@ const padding = 60;
 const graphWidth = svgWidth - 2 * padding;
 const graphHeight = svgHeight - 2 * padding;
 
-const moodScale = ["Excited","Happy","Neutral","Sad","Angry"];
+const moodScale = ["Excited", "Happy", "Neutral", "Sad", "Angry"];
 
-const moodIndexMap: Record<string, number> = moodScale
-  .reduce((acc, m, i) => (acc[m] = i, acc), {} as Record<string, number>);
+const moodIndexMap: Record<string, number> = moodScale.reduce(
+    (acc, m, i) => ((acc[m] = i), acc),
+    {} as Record<string, number>,
+);
 
 const steps = moodScale.length - 1;
 const getYForIndex = (i: number) => padding + (i / steps) * graphHeight;
-const getYForMood = (mood: string) => getYForIndex(moodIndexMap[mood] ?? moodIndexMap["Neutral"]);
+const getYForMood = (mood: string) =>
+    getYForIndex(moodIndexMap[mood] ?? moodIndexMap["Neutral"]);
 
 const dataPoints = computed(() => {
     if (moodEntries.value.length === 0) return [];
@@ -157,8 +164,12 @@ const getMoodColor = (mood: string): string => {
     return colors[mood] || "#45b7d1";
 };
 
-const emojiMap: Record<string,string> = {
-  Excited:"😄", Happy:"😊", Neutral:"😐", Sad:"😢", Angry:"😠"
+const emojiMap: Record<string, string> = {
+    Excited: "😄",
+    Happy: "😊",
+    Neutral: "😐",
+    Sad: "😢",
+    Angry: "😠",
 };
 const getMoodEmoji = (mood: string) => emojiMap[mood] || "😐";
 
@@ -184,6 +195,17 @@ const generateSampleData = async () => {
     }
 };
 
+const resetData = async () => {
+    if (confirm("?")) {
+        try {
+            await invoke("reset_store");
+            await loadTodaysMoods();
+        } catch (error) {
+            console.error("Failed to reset data:", error);
+        }
+    }
+};
+
 onMounted(() => {
     loadTodaysMoods();
 });
@@ -201,9 +223,32 @@ onActivated(() => {
 }
 
 .graph-header {
-    text-align: center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     margin-bottom: 30px;
     padding: 0 20px;
+}
+
+.reset-btn {
+    background: rgba(231, 76, 60, 0.1);
+    border: 2px solid #e74c3c;
+    color: #e74c3c;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reset-btn:hover {
+    background: #e74c3c;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
 }
 
 .no-data {
@@ -228,14 +273,15 @@ onActivated(() => {
     color: #4a90e2;
     padding: 16px 20px;
     border-radius: 16px;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     margin-top: 20px;
-    min-width: 80px;
+    min-width: 120px;
     min-height: 60px;
 }
 
@@ -303,6 +349,16 @@ onActivated(() => {
     .no-data {
         color: #bdc3c7;
         background: rgba(52, 73, 94, 0.8);
+    }
+
+    .reset-btn {
+        background: rgba(255, 107, 107, 0.2);
+        border-color: #ff6b6b;
+        color: #ff6b6b;
+    }
+
+    .reset-btn:hover {
+        background: #ff6b6b;
     }
 
     .sample-data-btn {
