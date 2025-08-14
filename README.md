@@ -36,7 +36,7 @@
 <h3 align="center"> Mood Tracker</h3>
 
   <p align="center">
-    project_description
+    A app to see how your mood shifts throughout the day.
     <br />
     <a href="https://github.com/arjav0703/mood-tracker"><strong>Explore the docs »</strong></a>
     <br />
@@ -51,36 +51,10 @@
 
 
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-  </ol>
-</details>
-
-
-
-<!-- ABOUT THE PROJECT -->
 ## About The Project
 
 
-This is an app to see how your mood shifts throughout the day and/or week
+This is an app to see how your mood shifts throughout the day.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -98,45 +72,34 @@ This is an app to see how your mood shifts throughout the day and/or week
 <!-- GETTING STARTED -->
 ## Getting Started
 
-The installation guide is still in work, and will be added at a later time
-<!--### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* Tauri
+* PNPM
   ```sh
-  npm install npm@latest -g
+  npm install pnpm -g
   ```
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/arjav0703/mood-tracker.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
-   npm install
+   pnpm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-5. Change git remote url to avoid accidental pushes to base project
+3. Run the app
    ```sh
-   git remote set-url origin arjav0703/mood-tracker
-   git remote -v # confirm the changes
+   pnpm tauri dev 
+   #or 
+   pnpm tauri android dev
    ```
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 -->
 
 
-<!-- USAGE EXAMPLES -->
 ## Usage
 
 You can use this to see how you're feeling on a day to day basis, and over the course of a day
-<!-- CONTRIBUTING -->
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -158,36 +121,10 @@ Don't forget to give the project a star! Thanks again!
   <img src="https://contrib.rocks/image?repo=arjav0703/mood-tracker" alt="contrib.rocks vbimage" />
 </a>
 
-
-
-
-Project Link: [https://github.com/arjav0703/mood-tracker](https://github.com/arjav0703/mood-tracker)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/arjav0703/mood-tracker.svg?style=for-the-badge
-[contributors-url]: https://github.com/arjav0703/mood-tracker/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/arjav0703/mood-tracker.svg?style=for-the-badge
-[forks-url]: https://github.com/arjav0703/mood-tracker/network/members
-[stars-shield]: https://img.shields.io/github/stars/arjav0703/mood-tracker.svg?style=for-the-badge
-[stars-url]: https://github.com/arjav0703/mood-tracker/stargazers
-[issues-shield]: https://img.shields.io/github/issues/arjav0703/mood-tracker.svg?style=for-the-badge
-[issues-url]: https://github.com/arjav0703/mood-tracker/issues
-[license-shield]: https://img.shields.io/github/license/arjav0703/mood-tracker.svg?style=for-the-badge
-[license-url]: https://github.com/arjav0703/mood-tracker/blob/master/LICENSE.txt
-
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-
-[Tauri]: https://img.shields.io/badge/Tauri-yellow?style=for-the-badge&logo=Tauri&logoColor=white
-[Tauri-url]: https://tauri.app
+<div align="center">
+  <a href="https://shipwrecked.hackclub.com/?t=ghrm" target="_blank">
+    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/739361f1d440b17fc9e2f74e49fc185d86cbec14_badge.png" 
+         alt="This project is part of Shipwrecked, the world's first hackathon on an island!" 
+         style="width: 35%;">
+  </a>
+</div>
